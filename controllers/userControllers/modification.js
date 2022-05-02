@@ -29,7 +29,7 @@ module.exports.deleteUser = async (req, res) => {
     userModel
       .findByIdAndDelete(req.params.id, (err, user) => {
         if (!err) {
-          res.send(user);
+          res.send(user, "Suppression effectuée");
         } else {
           res.send(err);
         }

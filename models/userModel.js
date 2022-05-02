@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 /*class Status {
   // Create new instances of the same class as static attributes
@@ -55,7 +56,10 @@ const userSChema = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  //cours: [{ type: Schema.Types.ObjectId, ref: "Enseignements" }],
+  admin: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 userSChema.pre("save", async function (next) {
@@ -65,6 +69,18 @@ userSChema.pre("save", async function (next) {
   }
   next();
 });
+
+userSChema.statics.login = async function (identifiant, password) {
+  const user = await this.findOne({ identifiant });
+  if (!user) {
+    throw new Error("Utilisateur non trouvé");
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    throw new Error("Mot de passe incorrect");
+  }
+  return user;
+};
 
 const userModel = mongoose.model("user", userSChema);
 module.exports = userModel;
