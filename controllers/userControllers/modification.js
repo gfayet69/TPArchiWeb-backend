@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../../models/userModel");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.updateUser = async (req, res) => {

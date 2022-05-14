@@ -2,20 +2,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const ObjectId = require("mongoose").Types.ObjectId;
 
-/*class Status {
-  // Create new instances of the same class as static attributes
-  static EC = new Status("EC");
-  static PRAG = new Status("PRAG");
-  static PAST = new Status("PAST");
-  static VAC = new Status("VAC");
-  static CDE = new Status("CDE");
-  static ATER = new Status("ATER");
-
-  constructor(name) {
-    this.name = name;
-  }
-}*/
-
 const userSChema = new mongoose.Schema({
   identifiant: {
     type: String,
@@ -49,16 +35,18 @@ const userSChema = new mongoose.Schema({
   statut: {
     type: String,
     enum: ["EC", "PRAG", "PAST", "VAC", "CDE", "ATER"],
-    required: false,
+    required: true,
     trim: true,
   },
   nbHmini: {
     type: Number,
     required: false,
+    default: 0,
   },
   admin: {
     type: Boolean,
-    required: true,
+    required: false,
+    default: false,
   },
 });
 
@@ -71,15 +59,15 @@ userSChema.pre("save", async function (next) {
 });
 
 userSChema.statics.login = async function (identifiant, password) {
-  const user = await this.findOne({ identifiant });
-  if (!user) {
-    throw new Error("Utilisateur non trouvé");
+  const user = await this.findOne({ identifiant: identifiant });
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
+    }
+    throw Error("password incorrect");
   }
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    throw new Error("Mot de passe incorrect");
-  }
-  return user;
+  throw Error("identifiant incorrect");
 };
 
 const userModel = mongoose.model("user", userSChema);
