@@ -13,10 +13,8 @@ module.exports.register = async (req, res) => {
       statut,
       nbHmini,
     });
-    console.log(user);
     return res.send(user);
   } catch (err) {
-    console.log("err", err);
     return res.status(400).send(err);
   }
 };

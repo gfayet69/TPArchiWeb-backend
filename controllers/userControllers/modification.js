@@ -1,8 +1,8 @@
 const userModel = require("../../models/userModel");
+const enseigneSchema = require("../../models/enseigneModel");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.updateUser = async (req, res) => {
-  console.log(req.body);
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).send({ error: "id not valid" });
@@ -26,15 +26,14 @@ module.exports.deleteUser = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).send({ error: "id not valid" });
     }
-    userModel
-      .findByIdAndDelete(req.params.id, (err, user) => {
-        if (!err) {
-          res.send(user, "Suppression effectuée");
-        } else {
-          res.send(err);
-        }
-      })
-      .select("-password");
+    enseigneSchema.find({ user: req.params.id }).deleteMany().exec();
+    userModel.findByIdAndDelete(req.params.id, (err, user) => {
+      if (!err) {
+        res.send("Suppression effectuée");
+      } else {
+        res.send(err);
+      }
+    });
   } catch (err) {
     return res.status(400).send(err);
   }

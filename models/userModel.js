@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const ObjectId = require("mongoose").Types.ObjectId;
 
-const userSChema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   identifiant: {
     type: String,
     required: true,
@@ -41,7 +41,7 @@ const userSChema = new mongoose.Schema({
   nbHmini: {
     type: Number,
     required: false,
-    default: 0,
+    default: 192,
   },
   admin: {
     type: Boolean,
@@ -50,7 +50,7 @@ const userSChema = new mongoose.Schema({
   },
 });
 
-userSChema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
@@ -58,7 +58,7 @@ userSChema.pre("save", async function (next) {
   next();
 });
 
-userSChema.statics.login = async function (identifiant, password) {
+userSchema.statics.login = async function (identifiant, password) {
   const user = await this.findOne({ identifiant: identifiant });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
@@ -70,5 +70,4 @@ userSChema.statics.login = async function (identifiant, password) {
   throw Error("identifiant incorrect");
 };
 
-const userModel = mongoose.model("user", userSChema);
-module.exports = userModel;
+module.exports = mongoose.model("user", userSchema);

@@ -4,6 +4,7 @@ require("dotenv").config({ path: "./config/.env" });
 require("./config/db.js");
 const userRoute = require("./routes/userRoute.js");
 const coursRoute = require("./routes/coursRoute.js");
+const enseigneRoute = require("./routes/enseigneRoute.js");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const {
@@ -19,6 +20,7 @@ app.use(cookieParser());
 //! Routes
 app.use("/api/user", userRoute);
 app.use("/api/cours", coursRoute);
+app.use("/api/enseigne", enseigneRoute);
 
 //! Middleware
 app.get("*", checkUser);
