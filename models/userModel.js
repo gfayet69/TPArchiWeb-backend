@@ -34,19 +34,14 @@ const userSchema = new mongoose.Schema({
   },
   statut: {
     type: String,
-    enum: ["EC", "PRAG", "PAST", "VAC", "CDE", "ATER"],
+    enum: ["EC", "PRAG", "PAST", "VAC", "CDE", "ATER", "Admin"],
     required: true,
     trim: true,
   },
   nbHmini: {
     type: Number,
-    required: false,
+    required: true,
     default: 192,
-  },
-  admin: {
-    type: Boolean,
-    required: false,
-    default: false,
   },
 });
 

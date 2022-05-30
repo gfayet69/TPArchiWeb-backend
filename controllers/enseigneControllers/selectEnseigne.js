@@ -5,13 +5,15 @@ const ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports.getAllEnseignes = async (req, res) => {
   try {
-    enseigneSchema.find({}, (err, enseignes) => {
-      if (!err) {
-        res.send(enseignes);
-      } else {
-        res.send(err);
-      }
-    });
+    enseigneSchema
+      .find({}, (err, enseignes) => {
+        if (!err) {
+          res.send(enseignes);
+        } else {
+          res.send(err);
+        }
+      })
+      .populate("cours");
   } catch (err) {
     return res.status(400).send(err);
   }
@@ -55,11 +57,16 @@ module.exports.getEnseignesByUser = async (req, res) => {
 module.exports.getEnseignesByCours = async (req, res) => {
   const cours = await enseigneSchema.find({ cours: req.params.id });
   const calcHeureCM = cours.reduce((acc, cur) => acc + cur.grCM, 0);
-  console.log(calcHeureCM);
   const calcHeureTD = cours.reduce((acc, cur) => acc + cur.grTD, 0);
-  console.log(calcHeureTD);
   const calcHeureTP = cours.reduce((acc, cur) => acc + cur.grTP, 0);
-  console.log(calcHeureTP);
+  console.log(
+    "calcGrpTotalCM : ",
+    calcHeureCM,
+    " et calculGrpTotalTD : ",
+    calcHeureTD,
+    " et calculGrpTotalTP : ",
+    calcHeureTP
+  );
   try {
     enseigneSchema
       .find({ cours: req.params.id }, (err, enseignes) => {

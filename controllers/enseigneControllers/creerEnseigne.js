@@ -41,19 +41,8 @@ module.exports.createEnseigne = async (req, res) => {
     //! check si on prend un group de CM et qu'un groupe de TP et/ou TP est dispo on doit le prendre
     if (
       req.body.grCM > 0 &&
-      cours.grTD != 0 &&
-      cours.grTP != 0 &&
-      (req.body.grTD == 0 || req.body.grTP == 0)
-    ) {
-      return res.status(400).send({
-        error:
-          "Vous ne pouvez pas avoir uniquement un groupe de CM si un groupe de TP ou TD est disponible",
-      });
-    }
-    if (
-      req.body.grCM > 0 &&
-      cours.grTD != 0 &&
-      cours.grTP == 0 &&
+      cours.grTD - calcHeureTD != 0 &&
+      cours.grTP - calcHeureTP != 0 &&
       req.body.grTD == 0
     ) {
       return res.status(400).send({
@@ -63,8 +52,8 @@ module.exports.createEnseigne = async (req, res) => {
     }
     if (
       req.body.grCM > 0 &&
-      cours.grTD == 0 &&
-      cours.grTP != 0 &&
+      cours.grTD - calcHeureTD != 0 &&
+      cours.grTP - calcHeureTP != 0 &&
       req.body.grTP == 0
     ) {
       return res.status(400).send({
