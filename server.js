@@ -33,7 +33,7 @@ app.use("/test", (req, res) => {
 });
 
 //! Middleware
-app.get("*", checkUser);
+//app.get("*", checkUser);
 app.get("/jwtid", requireAuthentification, (req, res) => {
   res.status(200).json(res.locals.user._id);
 });

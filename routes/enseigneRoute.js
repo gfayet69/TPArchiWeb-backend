@@ -8,6 +8,7 @@ router.get("/", selectEnseigne.getAllEnseignes);
 router.get("/id/:id", selectEnseigne.getEnseigneById);
 router.get("/user/:id", selectEnseigne.getEnseignesByUser);
 router.get("/cours/:id", selectEnseigne.getEnseignesByCours);
+router.get("/uc/:id", selectEnseigne.getUCUser);
 
 //! Création, modification et suppression d'enseignes
 router.post("/register", creerEnseigne.createEnseigne);

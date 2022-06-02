@@ -12,7 +12,8 @@ router
   .get("/identifiant/:identifiant", authentification.getOneUserByIdentifiant)
   .get("/identifiant/:identifiant/admin", check.checkUserAdmin)
   .post("/login", authentification.login)
-  .get("/logout", authentification.logout);
+  .get("/logout", authentification.logout)
+  .get("/authentification", authentification.checkCookie);
 
 //! Routes creation
 router.post("/register", creation.register);
