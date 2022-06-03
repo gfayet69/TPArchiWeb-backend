@@ -10,7 +10,6 @@ const coursSchema = new mongoose.Schema({
   "h/CM": { type: Number, required: false, default: 0 },
   "h/TD": { type: Number, required: false, default: 0 },
   "h/TP": { type: Number, required: false, default: 0 },
-  "h/TP": { type: Number, required: false, default: 0 },
   Effectif: { type: Number, required: false, default: 0 },
   grCM: { type: Number, required: false, default: 0 },
   grTD: { type: Number, required: false, default: 0 },

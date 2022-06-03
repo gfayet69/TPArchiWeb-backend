@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 192,
+    min: 192,
   },
 });
 
